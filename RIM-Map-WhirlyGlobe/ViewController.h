@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WhirlyGlobeComponent.h>
 
 @interface ViewController : UIViewController
-
 
 @end
 
