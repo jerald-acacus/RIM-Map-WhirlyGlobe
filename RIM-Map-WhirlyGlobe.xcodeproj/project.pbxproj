@@ -20,6 +20,7 @@
 		349897831BB133F200CD1D09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 349897821BB133F200CD1D09 /* libsqlite3.tbd */; };
 		349897851BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */; };
 		349897871BB140F400CD1D09 /* geography-class_medres.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 349897861BB140E200CD1D09 /* geography-class_medres.mbtiles */; settings = {ASSET_TAGS = (); }; };
+		3498978A1BB1788500CD1D09 /* GlobeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349897891BB1788500CD1D09 /* GlobeViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,8 @@
 		349897821BB133F200CD1D09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WhirlyGlobeMaplyComponent.framework; path = "RIM-Map-WhirlyGlobe/WhirlyGlobeMaplyComponent.framework"; sourceTree = "<group>"; };
 		349897861BB140E200CD1D09 /* geography-class_medres.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = "geography-class_medres.mbtiles"; sourceTree = "<group>"; };
+		349897881BB1788500CD1D09 /* GlobeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobeViewController.h; sourceTree = "<group>"; };
+		349897891BB1788500CD1D09 /* GlobeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,12 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				349897861BB140E200CD1D09 /* geography-class_medres.mbtiles */,
-				349897821BB133F200CD1D09 /* libsqlite3.tbd */,
-				349897801BB133EB00CD1D09 /* libxml2.tbd */,
-				3498977E1BB133E500CD1D09 /* libz.tbd */,
-				3498977C1BB1337600CD1D09 /* libc++.1.tbd */,
-				349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */,
-				3498977A1BB1332D00CD1D09 /* CoreLocation.framework */,
+				34A0F0C71BB7F8BC00918460 /* Frameworks */,
 				349897601BB1274400CD1D09 /* RIM-Map-WhirlyGlobe */,
 				3498975F1BB1274400CD1D09 /* Products */,
 			);
@@ -89,6 +87,8 @@
 				349897651BB1274400CD1D09 /* AppDelegate.m */,
 				349897671BB1274400CD1D09 /* ViewController.h */,
 				349897681BB1274400CD1D09 /* ViewController.m */,
+				349897881BB1788500CD1D09 /* GlobeViewController.h */,
+				349897891BB1788500CD1D09 /* GlobeViewController.m */,
 				3498976A1BB1274400CD1D09 /* Main.storyboard */,
 				3498976D1BB1274400CD1D09 /* Assets.xcassets */,
 				3498976F1BB1274400CD1D09 /* LaunchScreen.storyboard */,
@@ -104,6 +104,19 @@
 				349897621BB1274400CD1D09 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		34A0F0C71BB7F8BC00918460 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */,
+				3498977A1BB1332D00CD1D09 /* CoreLocation.framework */,
+				349897821BB133F200CD1D09 /* libsqlite3.tbd */,
+				349897801BB133EB00CD1D09 /* libxml2.tbd */,
+				3498977E1BB133E500CD1D09 /* libz.tbd */,
+				3498977C1BB1337600CD1D09 /* libc++.1.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3498978A1BB1788500CD1D09 /* GlobeViewController.m in Sources */,
 				349897691BB1274400CD1D09 /* ViewController.m in Sources */,
 				349897661BB1274400CD1D09 /* AppDelegate.m in Sources */,
 				349897631BB1274400CD1D09 /* main.m in Sources */,
