@@ -20,7 +20,6 @@
     
     [self configureGlobe];
     [self addLayerToGlobe];
-    [self keepNorth];
 }
 
 #pragma mark - Configuration Methods
@@ -31,7 +30,7 @@
 }
 
 - (void)addLayerToGlobe {
-    MaplyMBTileSource *tileSource = [[MaplyMBTileSource alloc] initWithMBTiles:@"geography-class_medres"];
+    MaplyMBTileSource *tileSource = [[MaplyMBTileSource alloc] initWithMBTiles:@"Offline-Map"];
     tileSource.minZoom = 0.01;
     MaplyQuadImageTilesLayer *layer = [[MaplyQuadImageTilesLayer alloc] initWithCoordSystem:tileSource.coordSys tileSource:tileSource];
     layer.handleEdges = self != nil;
@@ -43,9 +42,9 @@
     [self addLayer:layer];
 }
 
-- (void)keepNorth {
+- (void)setStartingCoordinatesLong:(float)lon lang:(float)lan {
     self.keepNorthUp = YES;
-    MaplyCoordinate startPoint = MaplyCoordinateMakeWithDegrees(55.35, 25.25);
+    MaplyCoordinate startPoint = MaplyCoordinateMakeWithDegrees(lon, lan);
     [self animateToPosition:startPoint time:1.0];
     self.keepNorthUp = NO;
 }

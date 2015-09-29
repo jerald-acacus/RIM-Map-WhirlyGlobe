@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong) MaplyScreenMarker *currentLocationMarker;
 
+- (void)setZoomLimitsMin:(float)minHeight max:(float)maxHeight withInitialHeight:(float)initialHeight;
+- (void)setStartingCoordinatesLong:(float)lon lang:(float)lan;
+
 @end
