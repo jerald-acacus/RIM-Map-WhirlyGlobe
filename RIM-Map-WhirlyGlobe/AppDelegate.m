@@ -3,7 +3,7 @@
 //  RIM-Map-WhirlyGlobe
 //
 //  Created by Jerald Abille on 9/22/15.
-//  Copyright © 2015 Jerald Abille. All rights reserved.
+//  Copyright © 2015 Acacus Technologies. All rights reserved.
 //
 
 #import "AppDelegate.h"

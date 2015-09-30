@@ -154,7 +154,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0700;
-				ORGANIZATIONNAME = "Jerald Abille";
+				ORGANIZATIONNAME = "Acacus Technologies";
 				TargetAttributes = {
 					3498975D1BB1274400CD1D09 = {
 						CreatedOnToolsVersion = 7.0;

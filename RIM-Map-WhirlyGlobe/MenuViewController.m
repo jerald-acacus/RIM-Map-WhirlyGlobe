@@ -3,7 +3,7 @@
 //  RIM-Map-WhirlyGlobe
 //
 //  Created by Jerald Abille on 9/29/15.
-//  Copyright © 2015 Jerald Abille. All rights reserved.
+//  Copyright © 2015 Acacus Technologies. All rights reserved.
 //
 
 #import "MenuViewController.h"
@@ -11,9 +11,14 @@
 
 @interface MenuViewController ()
 {
-    NSMutableArray *menuItems;
+
 }
 @end
+
+#define kTagMapType             1
+#define kTagDestinationMarkers  2
+#define kTagGeodesicLine        3
+#define kTagWaypointMarkers     4
 
 @implementation MenuViewController
 
@@ -21,7 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"Menu";
+    self.title = @"Options";
     self.navigationItem.rightBarButtonItem = nil;
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -30,20 +35,39 @@
     self.navigationItem.rightBarButtonItem = doneBarButton;
     [doneButton addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
     
-    menuItems = [[NSMutableArray alloc] initWithObjects:@"Origin and Destination", @"Geodesic Line", @"Waypoint Markers", @"Waypoint Lines", nil];
     self.tableView.allowsSelection = NO;
-    [self.delegate showDestinationMarkers];
+    self.tableView.showsVerticalScrollIndicator = NO;
 }
 
 - (void)done {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)switchDidChangeValue:(id)sender {
+    UISwitch *theSwitch = (UISwitch *)sender;
+    BOOL isOn = theSwitch.isOn;
+    switch (theSwitch.tag) {
+        case kTagDestinationMarkers:
+            [self.delegate showDestinationMarkers:isOn];
+            break;
+        case kTagGeodesicLine:
+            [self.delegate showGeodesicLine:isOn];
+            break;
+        case kTagWaypointMarkers:
+            [self.delegate showWaypointMarkers:isOn];
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark - UITableViewDataSource
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return menuItems.count;
+        return 3;
     }
     return 0;
 }
@@ -54,24 +78,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
-    UINavigationController *navVC = (UINavigationController *)self.presentingViewController;
-    ViewController *vc = (ViewController *)[[navVC viewControllers] lastObject];
-    if (!vc.originAndDestinationMarkers) {
-        
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
-    UINavigationController *navVC = (UINavigationController *)self.presentingViewController;
-    ViewController *vc = (ViewController *)[[navVC viewControllers] lastObject];
-    if (vc.originAndDestinationMarkers) {
-        
-    }
 }
 
 - (void)didReceiveMemoryWarning {

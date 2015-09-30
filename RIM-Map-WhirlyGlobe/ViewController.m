@@ -3,7 +3,7 @@
 //  RIM-Map-WhirlyGlobe
 //
 //  Created by Jerald Abille on 9/22/15.
-//  Copyright © 2015 Jerald Abille. All rights reserved.
+//  Copyright © 2015 Acacus Technologies. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -50,9 +50,9 @@
     [globeView setStartingCoordinatesLong:[originPoint[@"lon"] floatValue] lang:[originPoint[@"lat"] floatValue]];
     maplyBaseVC = globeView;
     
-    //[self showDestinationMarkers];
-    [self showWaypointMarkers];
-    [self showGeodesicLine];
+    [self showDestinationMarkers:YES];
+    [self showWaypointMarkers:YES];
+    [self showGeodesicLine:YES];
 }
 
 - (void)parseData {
@@ -69,12 +69,11 @@
 }
 
 - (void)showMenu {
-    //MenuViewController *menuVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MenuViewController"];
     UINavigationController *menuNav = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MenuNavController"];
     MenuViewController *menuVC = (MenuViewController *)[[menuNav viewControllers] lastObject];
-    menuNav.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPopover;
+    menuNav.modalPresentationStyle = UIModalPresentationPopover;
     menuNav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    menuNav.preferredContentSize = CGSizeMake(400, 60 * 5);
+    menuNav.preferredContentSize = CGSizeMake(400, 60 * 4);
     menuVC.delegate = self;
     UIPopoverPresentationController *presentationController = [menuNav popoverPresentationController];
     presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
@@ -84,73 +83,87 @@
 
 #pragma mark - Actions
 
-- (void)showGeodesicLine {
-    MaplyShapeGreatCircle *greatCircle = [[MaplyShapeGreatCircle alloc] init];
-    
-    greatCircle.startPt = MaplyCoordinateMakeWithDegrees([originPoint[@"lon"] floatValue], [originPoint[@"lat"] floatValue]);
-    greatCircle.endPt = MaplyCoordinateMakeWithDegrees([destinationPoint[@"lon"] floatValue], [destinationPoint[@"lat"] floatValue]);
-    
-    greatCircle.lineWidth = 2.0;
-    float angle = [greatCircle calcAngleBetween];
-    greatCircle.height = 0.15 * angle / M_PI;
-    greatCircle.color = [UIColor blueColor];
-    NSMutableArray *circles = [[NSMutableArray alloc] init];
-    [circles addObject:greatCircle];
-    _geodesicLines = [globeView addShapes:circles desc:nil];
+- (void)showDestinationMarkers:(BOOL)show {
+    if (show) {
+        CGSize size = CGSizeMake(25, 25);
+        UIImage *markerImage = [UIImage imageNamed:@"marker"];
+        
+        NSMutableArray *markers = [[NSMutableArray alloc] init];
+        NSMutableArray *points = [[NSMutableArray alloc] initWithArray:@[originPoint, destinationPoint]];
+        for (NSDictionary *point in points) {
+            MaplyScreenMarker *marker = [[MaplyScreenMarker alloc] init];
+            marker.image = markerImage;
+            marker.loc = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
+            marker.size = size;
+            marker.layoutImportance = MAXFLOAT;
+            [markers addObject:marker];
+        }
+        _originAndDestinationMarkers = [globeView addScreenMarkers:markers desc:nil];
+        
+    } else {
+        [maplyBaseVC removeObject:_originAndDestinationMarkers];
+        _originAndDestinationMarkers = nil;
+    }
 }
 
-- (void)showDestinationMarkers {
-    CGSize size = CGSizeMake(25, 25);
-    UIImage *markerImage = [UIImage imageNamed:@"marker"];
-    
-    NSMutableArray *markers = [[NSMutableArray alloc] init];
-    NSMutableArray *points = [[NSMutableArray alloc] initWithArray:@[originPoint, destinationPoint]];
-    for (NSDictionary *point in points) {
-        MaplyScreenMarker *marker = [[MaplyScreenMarker alloc] init];
-        marker.image = markerImage;
-        marker.loc = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
-        marker.size = size;
-        marker.layoutImportance = MAXFLOAT;
-        [markers addObject:marker];
+- (void)showGeodesicLine:(BOOL)show {
+    if (show) {
+        MaplyShapeGreatCircle *greatCircle = [[MaplyShapeGreatCircle alloc] init];
+        
+        greatCircle.startPt = MaplyCoordinateMakeWithDegrees([originPoint[@"lon"] floatValue], [originPoint[@"lat"] floatValue]);
+        greatCircle.endPt = MaplyCoordinateMakeWithDegrees([destinationPoint[@"lon"] floatValue], [destinationPoint[@"lat"] floatValue]);
+        
+        greatCircle.lineWidth = 2.0;
+        float angle = [greatCircle calcAngleBetween];
+        greatCircle.height = 0.15 * angle / M_PI;
+        greatCircle.color = [UIColor blueColor];
+        NSMutableArray *circles = [[NSMutableArray alloc] init];
+        [circles addObject:greatCircle];
+        _geodesicLines = [globeView addShapes:circles desc:nil];
+        
+    } else {
+        [maplyBaseVC removeObject:_geodesicLines];
+        _geodesicLines = nil;
     }
-    _originAndDestinationMarkers = [globeView addScreenMarkers:markers desc:nil];
 }
 
-- (void)hideDestinationMarkers {
-    [maplyBaseVC removeObject:_originAndDestinationMarkers];
-    _originAndDestinationMarkers = nil;
-}
-
-- (void)showWaypointMarkers {
-    CGSize size = CGSizeMake(20, 20);
-    UIImage *markerImage = [UIImage imageNamed:@"note"];
-    
-    NSMutableArray *markers = [[NSMutableArray alloc] init];
-    NSArray *waypoints = flightData[@"waypoints"];
-    NSMutableArray *points = [[NSMutableArray alloc] initWithArray:waypoints];
-    for (NSDictionary *point in points) {
-        MaplyScreenMarker *marker = [[MaplyScreenMarker alloc] init];
-        marker.image = markerImage;
-        marker.loc = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
-        marker.size = size;
-        marker.layoutImportance = MAXFLOAT;
-        marker.userObject = @"test";
-        [markers addObject:marker];
-        marker.offset = CGPointZero; //CGPointMake(5, 0); // Offset on icon if it doesn't look centered.
+- (void)showWaypointMarkers:(BOOL)show {
+    if (show) {
+        CGSize size = CGSizeMake(20, 20);
+        UIImage *markerImage = [UIImage imageNamed:@"note"];
+        
+        NSMutableArray *markers = [[NSMutableArray alloc] init];
+        NSArray *waypoints = flightData[@"waypoints"];
+        NSMutableArray *points = [[NSMutableArray alloc] initWithArray:waypoints];
+        for (NSDictionary *point in points) {
+            MaplyScreenMarker *marker = [[MaplyScreenMarker alloc] init];
+            marker.image = markerImage;
+            marker.loc = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
+            marker.size = size;
+            marker.layoutImportance = MAXFLOAT;
+            marker.userObject = @"test";
+            [markers addObject:marker];
+            marker.offset = CGPointZero; //CGPointMake(5, 0); // Offset on icon if it doesn't look centered.
+        }
+        _waypointMarkers = [globeView addScreenMarkers:markers desc:nil];
+        
+        NSMutableArray *vectors = [[NSMutableArray alloc] init];
+        MaplyCoordinate coords[points.count];
+        for (int x = 0; x < points.count; x++) {
+            NSDictionary *point = [points objectAtIndex:x];
+            coords[x] = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
+        }
+        MaplyVectorObject *vec = [[MaplyVectorObject alloc] initWithLineString:coords numCoords:(int)points.count attributes:nil];
+        [vectors addObject:vec];
+        NSDictionary *desc = @{kMaplyColor: [UIColor redColor], kMaplySubdivType: kMaplySubdivStatic, kMaplySubdivEpsilon: @(0.001), kMaplyVecWidth: @(2.0)};
+        MaplyBaseViewController *baseVC = globeView;
+        _waypointLines = [baseVC addVectors:vectors desc:desc];
+        
+    } else {
+        [maplyBaseVC removeObjects:@[_waypointMarkers, _waypointLines]];
+        _waypointMarkers = nil;
+        _waypointLines = nil;
     }
-    _waypointMarkers = [globeView addScreenMarkers:markers desc:nil];
-    
-    NSMutableArray *vectors = [[NSMutableArray alloc] init];
-    MaplyCoordinate coords[points.count];
-    for (int x = 0; x < points.count; x++) {
-        NSDictionary *point = [points objectAtIndex:x];
-        coords[x] = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
-    }
-    MaplyVectorObject *vec = [[MaplyVectorObject alloc] initWithLineString:coords numCoords:(int)points.count attributes:nil];
-    [vectors addObject:vec];
-    NSDictionary *desc = @{kMaplyColor: [UIColor redColor], kMaplySubdivType: kMaplySubdivStatic, kMaplySubdivEpsilon: @(0.001), kMaplyVecWidth: @(2.0)};
-    MaplyBaseViewController *baseVC = globeView;
-    _waypointLines = [baseVC addVectors:vectors desc:desc];
 }
 
 #pragma mark - WhirlyGlobeViewControllerDelegate
