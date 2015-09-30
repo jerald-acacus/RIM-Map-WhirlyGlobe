@@ -11,6 +11,8 @@
 #import "GlobeViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "MenuViewController.h"
+#import "Common.h"
+#import "Constants.h"
 
 @interface ViewController () <CLLocationManagerDelegate, WhirlyGlobeViewControllerDelegate, MaplyViewControllerDelegate>
 {
@@ -50,9 +52,7 @@
     [globeView setStartingCoordinatesLong:[originPoint[@"lon"] floatValue] lang:[originPoint[@"lat"] floatValue]];
     maplyBaseVC = globeView;
     
-    [self showDestinationMarkers:YES];
-    [self showWaypointMarkers:YES];
-    [self showGeodesicLine:YES];
+    [self showMapyObjects];
 }
 
 - (void)parseData {
@@ -82,6 +82,12 @@
 }
 
 #pragma mark - Actions
+
+- (void)showMapyObjects {
+    [self showDestinationMarkers:[[Common userDefaults] boolForKey:kShowWaypointMarkersKey]];
+    [self showGeodesicLine:[[Common userDefaults] boolForKey:kShowGeodesicLineKey]];
+    [self showWaypointMarkers:[[Common userDefaults] boolForKey:kShowWaypointMarkersKey]];
+}
 
 - (void)showDestinationMarkers:(BOOL)show {
     if (show) {
@@ -160,7 +166,8 @@
         _waypointLines = [baseVC addVectors:vectors desc:desc];
         
     } else {
-        [maplyBaseVC removeObjects:@[_waypointMarkers, _waypointLines]];
+        [maplyBaseVC removeObject:_waypointMarkers];
+        [maplyBaseVC removeObject:_waypointLines];
         _waypointMarkers = nil;
         _waypointLines = nil;
     }

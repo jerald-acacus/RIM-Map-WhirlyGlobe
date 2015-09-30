@@ -23,6 +23,8 @@
 		349897851BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */; };
 		3498978A1BB1788500CD1D09 /* GlobeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349897891BB1788500CD1D09 /* GlobeViewController.m */; };
 		34A0F0C91BB8025400918460 /* sample-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 34A0F0C81BB8025400918460 /* sample-data.json */; };
+		34AE8B0D1BBBE3FA00F9BF2E /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 34AE8B0C1BBBE3FA00F9BF2E /* Common.m */; settings = {ASSET_TAGS = (); }; };
+		34AE8B101BBBE79200F9BF2E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 34AE8B0F1BBBE79200F9BF2E /* Constants.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,10 @@
 		349897881BB1788500CD1D09 /* GlobeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobeViewController.h; sourceTree = "<group>"; };
 		349897891BB1788500CD1D09 /* GlobeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobeViewController.m; sourceTree = "<group>"; };
 		34A0F0C81BB8025400918460 /* sample-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sample-data.json"; sourceTree = "<group>"; };
+		34AE8B0B1BBBE3FA00F9BF2E /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		34AE8B0C1BBBE3FA00F9BF2E /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		34AE8B0E1BBBE79200F9BF2E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		34AE8B0F1BBBE79200F9BF2E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +94,10 @@
 		349897601BB1274400CD1D09 /* RIM-Map-WhirlyGlobe */ = {
 			isa = PBXGroup;
 			children = (
+				34AE8B0E1BBBE79200F9BF2E /* Constants.h */,
+				34AE8B0F1BBBE79200F9BF2E /* Constants.m */,
+				34AE8B0B1BBBE3FA00F9BF2E /* Common.h */,
+				34AE8B0C1BBBE3FA00F9BF2E /* Common.m */,
 				349897641BB1274400CD1D09 /* AppDelegate.h */,
 				349897651BB1274400CD1D09 /* AppDelegate.m */,
 				349897671BB1274400CD1D09 /* ViewController.h */,
@@ -199,10 +209,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34AE8B0D1BBBE3FA00F9BF2E /* Common.m in Sources */,
 				3498978A1BB1788500CD1D09 /* GlobeViewController.m in Sources */,
 				349897691BB1274400CD1D09 /* ViewController.m in Sources */,
 				349897661BB1274400CD1D09 /* AppDelegate.m in Sources */,
 				349897631BB1274400CD1D09 /* main.m in Sources */,
+				34AE8B101BBBE79200F9BF2E /* Constants.m in Sources */,
 				345D059C1BBAA92E002786D4 /* MenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

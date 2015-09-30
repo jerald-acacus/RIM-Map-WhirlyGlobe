@@ -21,7 +21,5 @@
 @property (nonatomic, strong) MaplyComponentObject *waypointMarkers;
 @property (nonatomic, strong) MaplyComponentObject *waypointLines;
 
-- (void)showDestinationMarkers;
-
 @end
 

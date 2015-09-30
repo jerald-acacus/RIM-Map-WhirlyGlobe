@@ -8,6 +8,8 @@
 
 #import "MenuViewController.h"
 #import "ViewController.h"
+#import "Common.h"
+#import "Constants.h"
 
 @interface MenuViewController ()
 {
@@ -37,10 +39,18 @@
     
     self.tableView.allowsSelection = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
+    
+    [self setupSwitches];
 }
 
 - (void)done {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)setupSwitches {
+    destinationMarkersSwitch.on = [[Common userDefaults] boolForKey:kShowDestinationMarkersKey];
+    geodesicLinesSwitch.on = [[Common userDefaults] boolForKey:kShowGeodesicLineKey];
+    waypointMarkersSwitch.on = [[Common userDefaults] boolForKey:kShowWaypointMarkersKey];
 }
 
 - (IBAction)switchDidChangeValue:(id)sender {
@@ -49,12 +59,15 @@
     switch (theSwitch.tag) {
         case kTagDestinationMarkers:
             [self.delegate showDestinationMarkers:isOn];
+            [Common defaultsSetBool:isOn forKey:kShowDestinationMarkersKey];
             break;
         case kTagGeodesicLine:
             [self.delegate showGeodesicLine:isOn];
+            [Common defaultsSetBool:isOn forKey:kShowGeodesicLineKey];
             break;
         case kTagWaypointMarkers:
             [self.delegate showWaypointMarkers:isOn];
+            [Common defaultsSetBool:isOn forKey:kShowWaypointMarkersKey];
             break;
         default:
             break;
