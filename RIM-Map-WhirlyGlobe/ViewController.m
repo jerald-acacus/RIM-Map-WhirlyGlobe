@@ -13,6 +13,8 @@
 #import "MenuViewController.h"
 #import "Common.h"
 #import "Constants.h"
+#import <MaplyComponent.h>
+#import "MapViewController.h"
 
 @interface ViewController () <CLLocationManagerDelegate, WhirlyGlobeViewControllerDelegate, MaplyViewControllerDelegate>
 {
@@ -21,6 +23,7 @@
     NSDictionary *destinationPoint;
     
     GlobeViewController *globeView;
+    MapViewController *mapView;
     MaplyBaseViewController *maplyBaseVC;
     CLLocationManager *locationManager;
     
@@ -46,13 +49,39 @@
     
     [self parseData];
     
-    globeView = (GlobeViewController *)[self.childViewControllers firstObject];
+    
+    // Add globeView as child of this view controller.
+    globeView = [[GlobeViewController alloc] init];
+    globeView.view.frame = contentView.bounds;
+    [contentView addSubview:globeView.view];
+    [self addChildViewController:globeView];
+    [globeView didMoveToParentViewController:self];
+    
     globeView.delegate = self;
     [globeView setZoomLimitsMin:0.20 max:1.4 withInitialHeight:1];
     [globeView setStartingCoordinatesLong:[originPoint[@"lon"] floatValue] lang:[originPoint[@"lat"] floatValue]];
     maplyBaseVC = globeView;
     
+    [self setupMapView];
+    
+    NSLog(@"%@",self.childViewControllers);
+    
     [self showMapyObjects];
+}
+
+- (void)setupMapView {
+    mapView = [[MapViewController alloc] init];
+    mapView.view.frame = contentView.bounds;
+    [contentView addSubview:mapView.view];
+    [self addChildViewController:mapView];
+}
+
+- (void)showGlobeView {
+    
+}
+
+- (void)showMapView {
+    
 }
 
 - (void)parseData {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <WhirlyGlobeComponent.h>
 
 @interface Common : NSObject
 
@@ -16,5 +17,7 @@
 + (nonnull NSUserDefaults *)userDefaults;
 + (BOOL)defaultsSetObject:(nullable id)value forKey:(nonnull NSString *)key;
 + (BOOL)defaultsSetBool:(BOOL)value forKey:(nonnull NSString *)key;
+
++ (nonnull MaplyQuadImageTilesLayer *)earthLayer;
 
 @end

@@ -47,6 +47,14 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)setupSegmentedControl {
+    
+}
+
+- (IBAction)mapTypeDidChangeValue:(id)sender {
+    
+}
+
 - (void)setupSwitches {
     destinationMarkersSwitch.on = [[Common userDefaults] boolForKey:kShowDestinationMarkersKey];
     geodesicLinesSwitch.on = [[Common userDefaults] boolForKey:kShowGeodesicLineKey];

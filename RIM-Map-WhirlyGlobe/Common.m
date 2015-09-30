@@ -28,4 +28,17 @@
     return [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (nonnull MaplyQuadImageTilesLayer *)earthLayer {
+    MaplyMBTileSource *tileSource = [[MaplyMBTileSource alloc] initWithMBTiles:@"Offline-Map"];
+    tileSource.minZoom = 0.01;
+    MaplyQuadImageTilesLayer *layer = [[MaplyQuadImageTilesLayer alloc] initWithCoordSystem:tileSource.coordSys tileSource:tileSource];
+    layer.handleEdges = self != nil;
+    layer.coverPoles = self != nil;
+    layer.requireElev = NO;
+    layer.waitLoad = NO;
+    layer.drawPriority = 0;
+    layer.singleLevelLoading = NO;
+    return layer;
+}
+
 @end

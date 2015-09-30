@@ -25,6 +25,8 @@
 }
 
 @property (nonatomic, weak) id<MenuViewControllerDelegate>delegate;
+
+- (IBAction)mapTypeDidChangeValue:(id)sender;
 - (IBAction)switchDidChangeValue:(id)sender;
 
 @end

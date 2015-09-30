@@ -12,7 +12,7 @@
 
 @interface ViewController : UIViewController <MenuViewControllerDelegate>
 {
-
+    IBOutlet UIView *contentView;
 }
 
 //Maply Objects to track which one to remove.
