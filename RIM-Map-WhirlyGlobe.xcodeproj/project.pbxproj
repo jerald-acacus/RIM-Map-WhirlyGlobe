@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		345D059C1BBAA92E002786D4 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 345D059B1BBAA92E002786D4 /* MenuViewController.m */; };
 		34872B3A1BB96465009AB57E /* Offline-Map.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 34872B391BB96465009AB57E /* Offline-Map.mbtiles */; };
 		349897631BB1274400CD1D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 349897621BB1274400CD1D09 /* main.m */; };
 		349897661BB1274400CD1D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 349897651BB1274400CD1D09 /* AppDelegate.m */; };
@@ -20,13 +21,13 @@
 		349897811BB133EB00CD1D09 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 349897801BB133EB00CD1D09 /* libxml2.tbd */; };
 		349897831BB133F200CD1D09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 349897821BB133F200CD1D09 /* libsqlite3.tbd */; };
 		349897851BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */; };
-		349897871BB140F400CD1D09 /* geography-class_medres.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 349897861BB140E200CD1D09 /* geography-class_medres.mbtiles */; };
 		3498978A1BB1788500CD1D09 /* GlobeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349897891BB1788500CD1D09 /* GlobeViewController.m */; };
 		34A0F0C91BB8025400918460 /* sample-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 34A0F0C81BB8025400918460 /* sample-data.json */; };
-		34A0F0CB1BB90EAC00918460 /* RIM-Map.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 34A0F0CA1BB90EAC00918460 /* RIM-Map.mbtiles */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		345D059A1BBAA92E002786D4 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		345D059B1BBAA92E002786D4 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		34872B391BB96465009AB57E /* Offline-Map.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Offline-Map.mbtiles"; sourceTree = "<group>"; };
 		3498975E1BB1274400CD1D09 /* RIM-Map-WhirlyGlobe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RIM-Map-WhirlyGlobe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		349897621BB1274400CD1D09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -44,11 +45,9 @@
 		349897801BB133EB00CD1D09 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		349897821BB133F200CD1D09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		349897841BB1344900CD1D09 /* WhirlyGlobeMaplyComponent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WhirlyGlobeMaplyComponent.framework; path = "RIM-Map-WhirlyGlobe/WhirlyGlobeMaplyComponent.framework"; sourceTree = "<group>"; };
-		349897861BB140E200CD1D09 /* geography-class_medres.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = "geography-class_medres.mbtiles"; sourceTree = "<group>"; };
 		349897881BB1788500CD1D09 /* GlobeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobeViewController.h; sourceTree = "<group>"; };
 		349897891BB1788500CD1D09 /* GlobeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobeViewController.m; sourceTree = "<group>"; };
 		34A0F0C81BB8025400918460 /* sample-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sample-data.json"; sourceTree = "<group>"; };
-		34A0F0CA1BB90EAC00918460 /* RIM-Map.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RIM-Map.mbtiles"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				34872B391BB96465009AB57E /* Offline-Map.mbtiles */,
-				349897861BB140E200CD1D09 /* geography-class_medres.mbtiles */,
-				34A0F0CA1BB90EAC00918460 /* RIM-Map.mbtiles */,
 				34A0F0C71BB7F8BC00918460 /* Frameworks */,
 				349897601BB1274400CD1D09 /* RIM-Map-WhirlyGlobe */,
 				3498975F1BB1274400CD1D09 /* Products */,
@@ -97,6 +94,8 @@
 				349897681BB1274400CD1D09 /* ViewController.m */,
 				349897881BB1788500CD1D09 /* GlobeViewController.h */,
 				349897891BB1788500CD1D09 /* GlobeViewController.m */,
+				345D059A1BBAA92E002786D4 /* MenuViewController.h */,
+				345D059B1BBAA92E002786D4 /* MenuViewController.m */,
 				3498976A1BB1274400CD1D09 /* Main.storyboard */,
 				34A0F0C81BB8025400918460 /* sample-data.json */,
 				3498976D1BB1274400CD1D09 /* Assets.xcassets */,
@@ -186,9 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34872B3A1BB96465009AB57E /* Offline-Map.mbtiles in Resources */,
-				34A0F0CB1BB90EAC00918460 /* RIM-Map.mbtiles in Resources */,
 				34A0F0C91BB8025400918460 /* sample-data.json in Resources */,
-				349897871BB140F400CD1D09 /* geography-class_medres.mbtiles in Resources */,
 				349897711BB1274400CD1D09 /* LaunchScreen.storyboard in Resources */,
 				3498976E1BB1274400CD1D09 /* Assets.xcassets in Resources */,
 				3498976C1BB1274400CD1D09 /* Main.storyboard in Resources */,
@@ -206,6 +203,7 @@
 				349897691BB1274400CD1D09 /* ViewController.m in Sources */,
 				349897661BB1274400CD1D09 /* AppDelegate.m in Sources */,
 				349897631BB1274400CD1D09 /* main.m in Sources */,
+				345D059C1BBAA92E002786D4 /* MenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

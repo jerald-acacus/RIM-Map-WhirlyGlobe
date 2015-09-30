@@ -10,6 +10,7 @@
 #import <WhirlyGlobeComponent.h>
 #import "GlobeViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "MenuViewController.h"
 
 @interface ViewController () <CLLocationManagerDelegate, WhirlyGlobeViewControllerDelegate, MaplyViewControllerDelegate>
 {
@@ -21,11 +22,8 @@
     MaplyBaseViewController *maplyBaseVC;
     CLLocationManager *locationManager;
     
-    //Maply Objects to track which one to remove.
-    MaplyComponentObject *originAndDestinationMarkers;
-    MaplyComponentObject *geodesicLines;
-    MaplyComponentObject *waypointMarkers;
-    MaplyComponentObject *waypointLines;
+    UIButton *menuButton;
+    UIBarButtonItem *menuBarButton;
 }
 @end
 
@@ -37,11 +35,12 @@
     
     self.title = @"RIM Map POC";
     
-    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [menuButton setImage:[UIImage imageNamed:@"menu"] forState:UIControlStateNormal];
     [menuButton sizeToFit];
-    UIBarButtonItem *menuBarButton = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+    menuBarButton = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
     self.navigationItem.rightBarButtonItem = menuBarButton;
+    [menuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
     
     [self parseData];
     
@@ -51,7 +50,7 @@
     [globeView setStartingCoordinatesLong:[originPoint[@"lon"] floatValue] lang:[originPoint[@"lat"] floatValue]];
     maplyBaseVC = globeView;
     
-    [self showDestinationMarkers];
+    //[self showDestinationMarkers];
     [self showWaypointMarkers];
     [self showGeodesicLine];
 }
@@ -69,6 +68,20 @@
     
 }
 
+- (void)showMenu {
+    //MenuViewController *menuVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MenuViewController"];
+    UINavigationController *menuNav = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MenuNavController"];
+    MenuViewController *menuVC = (MenuViewController *)[[menuNav viewControllers] lastObject];
+    menuNav.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPopover;
+    menuNav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    menuNav.preferredContentSize = CGSizeMake(400, 60 * 5);
+    menuVC.delegate = self;
+    UIPopoverPresentationController *presentationController = [menuNav popoverPresentationController];
+    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    presentationController.barButtonItem = menuBarButton;
+    [self presentViewController:menuNav animated:YES completion:nil];
+}
+
 #pragma mark - Actions
 
 - (void)showGeodesicLine {
@@ -83,7 +96,7 @@
     greatCircle.color = [UIColor blueColor];
     NSMutableArray *circles = [[NSMutableArray alloc] init];
     [circles addObject:greatCircle];
-    geodesicLines = [globeView addShapes:circles desc:nil];
+    _geodesicLines = [globeView addShapes:circles desc:nil];
 }
 
 - (void)showDestinationMarkers {
@@ -100,7 +113,12 @@
         marker.layoutImportance = MAXFLOAT;
         [markers addObject:marker];
     }
-    originAndDestinationMarkers = [globeView addScreenMarkers:markers desc:nil];
+    _originAndDestinationMarkers = [globeView addScreenMarkers:markers desc:nil];
+}
+
+- (void)hideDestinationMarkers {
+    [maplyBaseVC removeObject:_originAndDestinationMarkers];
+    _originAndDestinationMarkers = nil;
 }
 
 - (void)showWaypointMarkers {
@@ -120,7 +138,7 @@
         [markers addObject:marker];
         marker.offset = CGPointZero; //CGPointMake(5, 0); // Offset on icon if it doesn't look centered.
     }
-    waypointMarkers = [globeView addScreenMarkers:markers desc:nil];
+    _waypointMarkers = [globeView addScreenMarkers:markers desc:nil];
     
     NSMutableArray *vectors = [[NSMutableArray alloc] init];
     MaplyCoordinate coords[points.count];
@@ -128,11 +146,11 @@
         NSDictionary *point = [points objectAtIndex:x];
         coords[x] = MaplyCoordinateMakeWithDegrees([point[@"lon"] floatValue], [point[@"lat"] floatValue]);
     }
-    MaplyVectorObject *vec = [[MaplyVectorObject alloc] initWithLineString:coords numCoords:points.count attributes:nil];
+    MaplyVectorObject *vec = [[MaplyVectorObject alloc] initWithLineString:coords numCoords:(int)points.count attributes:nil];
     [vectors addObject:vec];
     NSDictionary *desc = @{kMaplyColor: [UIColor redColor], kMaplySubdivType: kMaplySubdivStatic, kMaplySubdivEpsilon: @(0.001), kMaplyVecWidth: @(2.0)};
     MaplyBaseViewController *baseVC = globeView;
-    waypointLines = [baseVC addVectors:vectors desc:desc];
+    _waypointLines = [baseVC addVectors:vectors desc:desc];
 }
 
 #pragma mark - WhirlyGlobeViewControllerDelegate

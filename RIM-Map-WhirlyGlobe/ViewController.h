@@ -8,8 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <WhirlyGlobeComponent.h>
+#import "MenuViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <MenuViewControllerDelegate>
+{
+
+}
+
+//Maply Objects to track which one to remove.
+@property (nonatomic, strong) MaplyComponentObject *originAndDestinationMarkers;
+@property (nonatomic, strong) MaplyComponentObject *geodesicLines;
+@property (nonatomic, strong) MaplyComponentObject *waypointMarkers;
+@property (nonatomic, strong) MaplyComponentObject *waypointLines;
+
+- (void)showDestinationMarkers;
 
 @end
 

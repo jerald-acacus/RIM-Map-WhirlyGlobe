@@ -6,7 +6,8 @@
 //  Copyright © 2015 Jerald Abille. All rights reserved.
 //
 
-#import "ViewController.h"
+#import <UIKit/UIKit.h>
+#import <WhirlyGlobeComponent.h>
 
 @interface GlobeViewController : WhirlyGlobeViewController
 
