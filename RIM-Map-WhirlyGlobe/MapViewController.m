@@ -9,7 +9,7 @@
 #import "MapViewController.h"
 #import "Common.h"
 
-@interface MapViewController ()
+@interface MapViewController () <MaplyViewControllerDelegate>
 
 @end
 
@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view.
     
     self.clearColor = (self != nil) ? [UIColor blackColor] : [UIColor whiteColor];
-    self.frameInterval = 2;
+    self.frameInterval = 1;
     [self addLayerToMap];
 }
 
@@ -30,7 +30,8 @@
 
 - (void)setStartingCoordinatesLong:(float)lon lang:(float)lan {
     MaplyCoordinate startPoint = MaplyCoordinateMakeWithDegrees(lon, lan);
-    [self animateToPosition:startPoint time:1.0];
+    //[self animateToPosition:startPoint time:1.0];
+    [self setPosition:startPoint];
 }
 
 - (void)setZoomLimitsMin:(float)minHeight max:(float)maxHeight withInitialHeight:(float)initialHeight {

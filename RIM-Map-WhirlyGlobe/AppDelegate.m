@@ -14,6 +14,11 @@
 
 @implementation AppDelegate
 
+// TODO: Reset map rotation
+// TODO: Animation on switching between map and globe
+// TODO: Save center coordinate of globe and map and use on switching or next time app opens
+// TODO: Geodesic line in map view (Geodesic line from Mapkit maybe?)
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

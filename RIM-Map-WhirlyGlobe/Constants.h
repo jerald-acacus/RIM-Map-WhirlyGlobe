@@ -10,6 +10,8 @@
 
 @interface Constants : NSObject
 
+extern NSString * const kShowMapKey;
+
 extern NSString * const kShowDestinationMarkersKey;
 extern NSString * const kShowGeodesicLineKey;
 extern NSString * const kShowWaypointMarkersKey;

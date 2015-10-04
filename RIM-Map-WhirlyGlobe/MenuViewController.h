@@ -14,6 +14,8 @@
 - (void)showGeodesicLine:(BOOL)show;
 - (void)showWaypointMarkers:(BOOL)show;
 
+- (void)switchCurrentView;
+
 @end
 
 @interface MenuViewController : UITableViewController

@@ -40,6 +40,7 @@
     self.tableView.allowsSelection = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     
+    [self setupSegmentedControl];
     [self setupSwitches];
 }
 
@@ -48,11 +49,19 @@
 }
 
 - (void)setupSegmentedControl {
-    
+    if (![[Common userDefaults] objectForKey:kShowMapKey]) {
+        mapTypeSegmentedControl.selectedSegmentIndex = 0;
+    } else {
+        if ([[[Common userDefaults] objectForKey:kShowMapKey] isEqualToString:@"Globe"]) {
+            mapTypeSegmentedControl.selectedSegmentIndex = 0;
+        } else {
+            mapTypeSegmentedControl.selectedSegmentIndex = 1;
+        }
+    }
 }
 
 - (IBAction)mapTypeDidChangeValue:(id)sender {
-    
+    [self.delegate switchCurrentView];
 }
 
 - (void)setupSwitches {

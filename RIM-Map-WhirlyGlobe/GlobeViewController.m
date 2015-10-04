@@ -26,7 +26,7 @@
 
 - (void)configureGlobe {
     self.clearColor = (self != nil) ? [UIColor blackColor] : [UIColor whiteColor];
-    self.frameInterval = 2;
+    self.frameInterval = 1;
 }
 
 - (void)addLayerToGlobe {
@@ -45,7 +45,7 @@
 - (void)setStartingCoordinatesLong:(float)lon lang:(float)lan {
     self.keepNorthUp = YES;
     MaplyCoordinate startPoint = MaplyCoordinateMakeWithDegrees(lon, lan);
-    [self animateToPosition:startPoint time:1.0];
+    [self setPosition:startPoint];
     self.keepNorthUp = NO;
 }
 

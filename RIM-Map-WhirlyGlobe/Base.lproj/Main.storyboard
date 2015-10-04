@@ -14,21 +14,22 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yfp-Fp-SLs">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Yfp-Fp-SLs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ILw-f3-BuT"/>
-                            <constraint firstItem="Yfp-Fp-SLs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Vhi-Xm-hPZ"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Yfp-Fp-SLs" secondAttribute="bottom" id="XlH-ll-IIj"/>
-                            <constraint firstAttribute="trailing" secondItem="Yfp-Fp-SLs" secondAttribute="trailing" id="n7R-ib-6Re"/>
+                            <constraint firstItem="Yfp-Fp-SLs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="0nt-5E-Cuq"/>
+                            <constraint firstItem="Yfp-Fp-SLs" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="3Wq-gQ-k6V"/>
+                            <constraint firstAttribute="trailing" secondItem="Yfp-Fp-SLs" secondAttribute="trailing" id="bqc-Yg-yaI"/>
+                            <constraint firstItem="Yfp-Fp-SLs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="tgd-je-Gc8"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="rU1-mG-IDb"/>
                     <connections>
                         <outlet property="contentView" destination="Yfp-Fp-SLs" id="kcv-Vq-YCi"/>

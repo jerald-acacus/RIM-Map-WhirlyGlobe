@@ -49,8 +49,21 @@
     
     [self parseData];
     
+    if (![[Common userDefaults] objectForKey:kShowMapKey]) {
+        [self setupGlobeView];
+    } else {
+        if ([[[Common userDefaults] objectForKey:kShowMapKey] isEqualToString:@"Globe"]) { // If kShowMapKey is not set, show map as initial view.
+            [self setupGlobeView];
+            
+        } else if ([[[Common userDefaults] objectForKey:kShowMapKey] isEqualToString:@"Map"]) {
+            [self setupMapView];
+        }
+    }
     
-    // Add globeView as child of this view controller.
+    [self showMapyObjects];
+}
+
+- (void)setupGlobeView {
     globeView = [[GlobeViewController alloc] init];
     globeView.view.frame = contentView.bounds;
     [contentView addSubview:globeView.view];
@@ -62,11 +75,7 @@
     [globeView setStartingCoordinatesLong:[originPoint[@"lon"] floatValue] lang:[originPoint[@"lat"] floatValue]];
     maplyBaseVC = globeView;
     
-    [self setupMapView];
-    
-    NSLog(@"%@",self.childViewControllers);
-    
-    [self showMapyObjects];
+    [Common defaultsSetObject:@"Globe" forKey:kShowMapKey];
 }
 
 - (void)setupMapView {
@@ -74,14 +83,51 @@
     mapView.view.frame = contentView.bounds;
     [contentView addSubview:mapView.view];
     [self addChildViewController:mapView];
+    NSLog(@"bounds %@",NSStringFromCGRect(contentView.bounds));
+    NSLog(@"bounds %@",NSStringFromCGRect(mapView.view.frame));
+    mapView.delegate = self;
+    [mapView setZoomLimitsMin:0.1 max:10 withInitialHeight:1];
+    [mapView setStartingCoordinatesLong:[originPoint[@"lon"] floatValue] lang:[originPoint[@"lat"] floatValue]];
+    mapView.autoMoveToTap = NO;
+    mapView.rotateGesture = NO;
+    maplyBaseVC = mapView;
+    
+    [Common defaultsSetObject:@"Map" forKey:kShowMapKey];
 }
 
-- (void)showGlobeView {
-    
+- (void)switchCurrentView {
+    if (maplyBaseVC == globeView) {
+        NSLog(@"I'm the globe!");
+        [self removeViewController:globeView];
+        [self setupMapView];
+        
+    } else {
+        NSLog(@"I'm the map!");
+        [self removeViewController:mapView];
+        [self setupGlobeView];
+    }
+    [self showMapyObjects];
 }
 
-- (void)showMapView {
+- (void)cycleFromViewController:(UIViewController *)prevVC toViewController:(UIViewController *)newVC {
+    [prevVC willMoveToParentViewController:nil];
+    [self addChildViewController:newVC];
     
+    CGRect endFrame = prevVC.view.frame;
+    
+    [self transitionFromViewController:prevVC toViewController:newVC duration:0.25 options:0 animations:^{
+        newVC.view.frame = prevVC.view.frame;
+        prevVC.view.frame = endFrame;
+    } completion:^(BOOL finished) {
+        [prevVC removeFromParentViewController];
+        [newVC didMoveToParentViewController:self];
+    }];
+}
+
+- (void)removeViewController:(UIViewController *)content {
+    [content willMoveToParentViewController:nil];
+    [content.view removeFromSuperview];
+    [content removeFromParentViewController];
 }
 
 - (void)parseData {
@@ -110,11 +156,14 @@
     [self presentViewController:menuNav animated:YES completion:nil];
 }
 
-#pragma mark - Actions
+#pragma mark - MaplyComponentObjects
 
 - (void)showMapyObjects {
     [self showDestinationMarkers:[[Common userDefaults] boolForKey:kShowWaypointMarkersKey]];
-    [self showGeodesicLine:[[Common userDefaults] boolForKey:kShowGeodesicLineKey]];
+    if (maplyBaseVC == globeView) {
+        [self showGeodesicLine:[[Common userDefaults] boolForKey:kShowGeodesicLineKey]];
+    }
+    
     [self showWaypointMarkers:[[Common userDefaults] boolForKey:kShowWaypointMarkersKey]];
 }
 
@@ -133,7 +182,7 @@
             marker.layoutImportance = MAXFLOAT;
             [markers addObject:marker];
         }
-        _originAndDestinationMarkers = [globeView addScreenMarkers:markers desc:nil];
+        _originAndDestinationMarkers = [maplyBaseVC addScreenMarkers:markers desc:nil];
         
     } else {
         [maplyBaseVC removeObject:_originAndDestinationMarkers];
@@ -154,7 +203,7 @@
         greatCircle.color = [UIColor blueColor];
         NSMutableArray *circles = [[NSMutableArray alloc] init];
         [circles addObject:greatCircle];
-        _geodesicLines = [globeView addShapes:circles desc:nil];
+        _geodesicLines = [maplyBaseVC addShapes:circles desc:nil];
         
     } else {
         [maplyBaseVC removeObject:_geodesicLines];
@@ -180,7 +229,7 @@
             [markers addObject:marker];
             marker.offset = CGPointZero; //CGPointMake(5, 0); // Offset on icon if it doesn't look centered.
         }
-        _waypointMarkers = [globeView addScreenMarkers:markers desc:nil];
+        _waypointMarkers = [maplyBaseVC addScreenMarkers:markers desc:nil];
         
         NSMutableArray *vectors = [[NSMutableArray alloc] init];
         MaplyCoordinate coords[points.count];
@@ -191,8 +240,7 @@
         MaplyVectorObject *vec = [[MaplyVectorObject alloc] initWithLineString:coords numCoords:(int)points.count attributes:nil];
         [vectors addObject:vec];
         NSDictionary *desc = @{kMaplyColor: [UIColor redColor], kMaplySubdivType: kMaplySubdivStatic, kMaplySubdivEpsilon: @(0.001), kMaplyVecWidth: @(2.0)};
-        MaplyBaseViewController *baseVC = globeView;
-        _waypointLines = [baseVC addVectors:vectors desc:desc];
+        _waypointLines = [maplyBaseVC addVectors:vectors desc:desc];
         
     } else {
         [maplyBaseVC removeObject:_waypointMarkers];
@@ -233,6 +281,33 @@
 }
 
 #pragma mark - MaplyViewControllerDelegate
+
+- (void)maplyViewController:(MaplyViewController *)viewC didStopMoving:(MaplyCoordinate *)corners userMotion:(bool)userMotion {
+    NSLog(@"Map Height %f",mapView.height);
+    if (mapView.height <= 0.20) {
+        mapView.rotateGesture = YES;
+    } else {
+        mapView.rotateGesture = NO;
+        mapView.heading = 0;
+    }
+    
+}
+
+- (void)maplyViewController:(MaplyViewController *)viewC didSelect:(NSObject *)selectedObj {
+    NSLog(@"test");
+    if ([selectedObj isKindOfClass:[MaplyScreenMarker class]]) {
+        MaplyScreenMarker *selectedMarker = (MaplyScreenMarker *)selectedObj;
+        MaplyAnnotation *annotate = [[MaplyAnnotation alloc] init];
+        annotate.title = (NSString *)selectedMarker.userObject;
+        annotate.subTitle = @"...";
+        [mapView clearAnnotations];
+        [mapView addAnnotation:annotate forPoint:selectedMarker.loc offset:CGPointZero];
+    }
+}
+
+- (void)maplyViewController:(MaplyViewController *)viewC didTapAt:(MaplyCoordinate)coord {
+    [mapView clearAnnotations];
+}
 
 #pragma mark - CLLocationManagerDelegate
 
